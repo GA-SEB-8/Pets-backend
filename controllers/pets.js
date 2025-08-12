@@ -7,9 +7,40 @@ async function createPet(req, res){
         res.status(201).json(createdPet)
     } catch (err) {
         console.log(err)
+        res.status(500).json({error: err.message})
+    }
+}
+
+async function petIndex(req, res){
+    try {
+        const allPets = await Pet.find()
+        if (allPets.length){
+            res.status(200).json(allPets)
+        } else {
+            res.sendStatus(204)
+        }
+        
+    } catch (err){
+        console.log(err)
+    }
+}
+
+async function showPet(req, res){
+    try {
+        const pet = await Pet.findById(req.params.id)
+        if (pet){
+            res.status(200).json(pet)
+        } else {
+            res.sendStatus(404)
+        }
+        
+    } catch (err) {
+        res.status(500).json({error: err.message})
     }
 }
 
 module.exports = {
-    createPet
+    createPet,
+    petIndex,
+    showPet
 }
