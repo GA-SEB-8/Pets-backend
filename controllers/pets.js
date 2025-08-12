@@ -39,8 +39,38 @@ async function showPet(req, res){
     }
 }
 
+async function deletePet(req, res){
+    try {
+        const pet = await Pet.findByIdAndDelete(req.params.id)
+        if (pet){
+            res.status(200).json(pet)
+        } else {
+            res.sendStatus(404)
+        }
+        
+
+    } catch (err){
+        res.status(500).json({error: err.message})
+    }
+}
+
+async function updatePet(req, res){
+    try {
+        const pet = await Pet.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {new: true}
+        )
+        res.status(200).json(pet)
+    } catch (err){
+        res.status(500).json({error: err.message})
+    }
+}
+
 module.exports = {
     createPet,
     petIndex,
-    showPet
+    showPet,
+    deletePet,
+    updatePet
 }
