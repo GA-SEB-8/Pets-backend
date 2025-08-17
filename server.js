@@ -5,6 +5,7 @@ const logger = require('morgan')
 const cors = require('cors')
 
 const petRoutes = require('./routes/petRoutes')
+const authRoutes = require('./routes/authRoutes')
 
 dotenv.config()
 const app = express()
@@ -20,6 +21,7 @@ mongoose.connection.on('connected', ()=>{
 app.use(cors({origin: 'http://localhost:5173'}))
 app.use(express.json())
 app.use(logger('dev'))
+app.use('/auth', authRoutes)
 app.use('/pets', petRoutes)
 
 app.listen(3000, () => {
